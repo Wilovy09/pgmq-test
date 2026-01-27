@@ -4,3 +4,19 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+actix-cors = "0.7.1"
+actix-web = "4.12.1"
+actix-web-httpauth = "0.8.2"
+actix-web-prometheus = "0.1.2"
+# https://github.com/FlakySL/actix_failwrap#installation- 
+actix_failwrap = "1.0.3"
+dotenv = "0.15.0"
+serde = { version = "1.0.228", features = ["derive"] }
+sqlx = { version = "0.8.6", features = [
+    "postgres",
+    "macros",
+    "runtime-tokio-native-tls",
+] }
+thiserror = "2.0.18"
+uuid = { version = "1.19.0", features = ["v4", "serde"] }
+validator = { version = "0.20.0", features = ["derive"] }
