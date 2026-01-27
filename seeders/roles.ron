@@ -1,0 +1,17 @@
+{
+	#[schema = "public"] 
+	roles: [
+		(
+			name: "admin",
+		),
+		(
+			name: "user",
+		),
+		(
+			name: "store_manager",
+		),
+		(
+			name: "store_admin",
+		),
+	],
+}
