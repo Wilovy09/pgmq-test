@@ -5,6 +5,7 @@ use uuid::Uuid;
 
 use crate::{
     AppState,
+    config::Config,
     helpers::hash_password::hash_password,
     mailer::{
         entities::{EmailTemplate, PasswordResetToken},
@@ -48,9 +49,11 @@ impl MailerService {
         .await
         .map_err(|_| MailerErrors::DatabaseError)?;
 
-        let frontend_url =
-            std::env::var("FRONTEND_URL").unwrap_or_else(|_| "http://localhost:3000".to_string());
-        let reset_url = format!("{}/reset-password?token={}", frontend_url, token);
+        let reset_url = format!(
+            "{}/reset-password?token={}",
+            Config::from_env().frontend_url,
+            token
+        );
         let email_template = EmailTemplate {
             to: email.to_string(),
             subject: "Password Reset Request".to_string(),
@@ -122,16 +125,11 @@ impl MailerService {
     }
 
     async fn send_email(template: &EmailTemplate) -> Result<(), MailerErrors> {
-        let smtp_host = std::env::var("SMTP_HOST").unwrap_or_else(|_| "localhost".to_string());
-        let smtp_port = std::env::var("SMTP_PORT")
-            .unwrap_or_else(|_| "1025".to_string())
-            .parse::<u16>()
-            .unwrap_or(1025);
-        let smtp_from_email =
-            std::env::var("SMTP_FROM_EMAIL").unwrap_or_else(|_| "noreply@pgmq.com".to_string());
-        let smtp_from_name = std::env::var("SMTP_FROM_NAME").unwrap_or_else(|_| "PGMQ".to_string());
-
-        let from_address = format!("{} <{}>", smtp_from_name, smtp_from_email);
+        let from_address = format!(
+            "{} <{}>",
+            Config::from_env().smtp_from_name,
+            Config::from_env().smtp_from_email
+        );
         let email = Message::builder()
             .from(
                 from_address
@@ -147,8 +145,8 @@ impl MailerService {
             .body(template.body.clone())
             .map_err(|_| MailerErrors::InvalidTemplate)?;
 
-        let mailer = SmtpTransport::builder_dangerous(&smtp_host)
-            .port(smtp_port)
+        let mailer = SmtpTransport::builder_dangerous(&Config::from_env().smtp_host)
+            .port(Config::from_env().smtp_port)
             .timeout(Some(Duration::from_secs(10)))
             .build();
 

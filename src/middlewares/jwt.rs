@@ -1,4 +1,5 @@
 use crate::AppState;
+use crate::config::Config;
 use actix_web::web::Data;
 use actix_web::{Error, dev::ServiceRequest, error};
 use actix_web_grants::authorities::AttachAuthorities;
@@ -7,7 +8,6 @@ use chrono::{Duration, Utc};
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Deserialize, Serialize};
 use sqlx::Error as SqlxError;
-use std::env;
 use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -26,7 +26,7 @@ pub struct Claims {
 }
 
 pub fn get_secret_key() -> String {
-    env::var("SECRET_KEY").expect("SECRET_KEY must be set")
+    Config::from_env().secret_key
 }
 
 pub fn generate_token(
