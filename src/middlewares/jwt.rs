@@ -51,6 +51,7 @@ pub fn generate_token(
     encode(&header, &my_claims, &encoding_key).unwrap()
 }
 
+#[allow(dead_code)]
 pub fn validate_token(token: String) -> Result<Claims, jsonwebtoken::errors::Error> {
     let validation = Validation::new(Algorithm::HS512);
     let decoding_key = DecodingKey::from_secret(get_secret_key().as_bytes());
@@ -61,6 +62,7 @@ pub fn validate_token(token: String) -> Result<Claims, jsonwebtoken::errors::Err
     }
 }
 
+#[allow(dead_code)]
 pub async fn validator(
     req: ServiceRequest,
     credenciales: Option<BearerAuth>,

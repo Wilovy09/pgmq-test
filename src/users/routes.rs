@@ -5,7 +5,6 @@ use actix_web::{
 };
 use serde_json::json;
 
-
 use crate::{
     AppState,
     helpers::hash_password::verify_password,
@@ -78,7 +77,8 @@ async fn forgot_password(
     state: Data<AppState>,
     body: Json<ForgotPasswordRequest>,
 ) -> Result<HttpResponse, actix_web::Error> {
-    let message = MailerService::send_password_reset_email(&state, &body.email).await
+    let message = MailerService::send_password_reset_email(&state, &body.email)
+        .await
         .map_err(actix_web::Error::from)?;
     Ok(HttpResponse::Ok().json(ForgotPasswordResponse { message }))
 }
@@ -92,7 +92,8 @@ async fn reset_password(
         return Err(actix_web::Error::from(MailerErrors::PasswordHashError));
     }
 
-    let message = MailerService::reset_password(&state, &body.token, &body.new_password).await
+    let message = MailerService::reset_password(&state, &body.token, &body.new_password)
+        .await
         .map_err(actix_web::Error::from)?;
     Ok(HttpResponse::Ok().json(json!({ "message": message })))
 }

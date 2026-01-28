@@ -1,6 +1,7 @@
 use actix_failwrap::ErrorResponse;
 use thiserror::Error;
 
+#[allow(dead_code)]
 #[derive(Debug, ErrorResponse, Error)]
 pub enum HttpErrors {
     #[error("Internal server error")]

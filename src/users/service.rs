@@ -48,10 +48,10 @@ impl PartialUser {
             Ok(user) => user.id,
             Err(e) => {
                 let _ = tx.rollback().await;
-                if let sqlx::Error::Database(db_err) = &e {
-                    if db_err.code() == Some(Cow::Borrowed("23505")) {
-                        return Err(AuthErrors::EmailAlreadyRegistered);
-                    }
+                if let sqlx::Error::Database(db_err) = &e
+                    && db_err.code() == Some(Cow::Borrowed("23505"))
+                {
+                    return Err(AuthErrors::EmailAlreadyRegistered);
                 }
                 return Err(AuthErrors::DatabaseError);
             }
@@ -84,7 +84,7 @@ impl PartialUser {
             }
         }
 
-        if let Err(_) = tx.commit().await {
+        if tx.commit().await.is_err() {
             return Err(AuthErrors::TransactionError);
         }
 

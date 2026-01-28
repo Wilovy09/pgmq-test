@@ -2,6 +2,7 @@ use actix_web::{HttpResponse, ResponseError};
 use serde_json::json;
 use thiserror::Error;
 
+#[allow(dead_code)]
 #[derive(Debug, Error)]
 pub enum MailerErrors {
     #[error("SMTP connection failed")]
