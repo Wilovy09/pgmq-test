@@ -9,6 +9,9 @@ use crate::config::Config;
 
 mod config;
 mod errors;
+mod helpers;
+mod mailer;
+mod middlewares;
 mod users;
 
 pub struct AppState {
