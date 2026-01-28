@@ -1,5 +1,5 @@
 {
-	#[schema = "public"] 
+	#[schema = "catalogs"] 
 	roles: [
 		(
 			name: "admin",
