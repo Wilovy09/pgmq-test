@@ -21,11 +21,6 @@ use crate::{
 /// `POST` `/register` - Register a new user
 ///
 /// `POST` `/login` - Login an existing user
-///
-/// `POST` `/forgot-password` - Request password reset email
-///
-/// `POST` `/reset-password` - Reset password with token
-///
 /// Auth User entity:
 /// ```no_run
 /// #[derive(Debug, Validate, Deserialize)]
@@ -35,6 +30,30 @@ use crate::{
 ///     pub email: String,
 ///     #[validate(length(min = 8))]
 ///     pub password: String,
+/// }
+/// ```
+/// `POST` `/forgot-password` - Request password reset email
+///
+/// Forgot Password Request entity:
+/// ```no_run
+/// #[derive(Debug, Validate, Deserialize)]
+/// pub struct ForgotPasswordRequest {
+///     #[validate(email)]
+///     #[validate(length(min = 5, max = 100))]
+///     pub email: String,
+/// }
+/// ```
+///
+/// `POST` `/reset-password` - Reset password with token
+///
+/// Reset Password Request entity:
+/// ```no_run
+/// #[derive(Debug, Validate, Deserialize)]
+/// pub struct ResetPasswordRequest {
+///     #[validate(length(min = 32, max = 255))]
+///     pub token: String,
+///     #[validate(length(min = 8))]
+///     pub new_password: String,
 /// }
 /// ```
 pub fn config(cfg: &mut web::ServiceConfig) {

@@ -14,7 +14,8 @@ check:
     cargo check
 
 clippy:
-    cargo clippy --all-targets --all-features -- -D warnings
+    #!/usr/bin/env bash
+        cargo sqlx prepare && cargo clippy --all-targets --all-features -- -D warnings
 
 clippy-fix:
     cargo clippy --fix --allow-dirty --allow-staged

@@ -9,4 +9,5 @@
 - [Grow-RS](https://github.com/Wilovy09/Grow-rs) (v2.2.0)
 - [Just](https://github.com/casey/just) (v1.46.0)
 - [Cargo Watch](https://crates.io/crates/cargo-watch) (v8.5.3)
+- [MailHog](https://github.com/mailhog/MailHog) (v1.0.1)
 - Postgres DB (v17.7)
